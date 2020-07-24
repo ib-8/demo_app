@@ -5,8 +5,14 @@ import 'package:flutter_web/repository/database.dart';
 import 'package:flutter_web/screens/productform.dart';
 import 'package:flutter_web/widgets/custombutton.dart';
 
-class HomePage extends StatelessWidget {
-  showProductDetails(context, {name, summary, description, price, id}) {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isFav;
+  showProductDetails({name, summary, description, price, id}) {
     return showDialog(
         barrierColor: grey,
         context: context,
@@ -69,9 +75,18 @@ class HomePage extends StatelessWidget {
     Navigator.push(context, MaterialPageRoute(builder: (_) => ProductForm()));
   }
 
+  updateFavourite(id, fav) {
+    setState(() {
+      isFav = !fav;
+    });
+    updateFav(id, isFav);
+    print(isFav);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffdddddd),
       appBar: AppBar(
         title: Text('Flutter Store'),
       ),
@@ -101,49 +116,112 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 )
-              : Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    GridView.builder(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: length,
-                        itemBuilder: (context, index) {
-                          String productName =
-                              snapshot.data.documents[index].data['name'];
-                          String summary =
-                              snapshot.data.documents[index].data['summary'];
-                          String itemDes = snapshot
-                              .data.documents[index].data['description'];
-                          String itemPrice =
-                              snapshot.data.documents[index].data['price'];
-                          String id = snapshot.data.documents[index].documentID;
-                          return InkWell(
-                            child: Card(
-                              elevation: 5,
-                              shape: roundedShape(10),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3),
-                                child: GridTile(
-                                  header: Center(
-                                      child: Text(productName,
+              : GridView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 0.8),
+                  itemCount: length + 1,
+                  itemBuilder: (context, index) {
+                    String productName, summary, itemDes, itemPrice, id, url;
+                    bool fav;
+                    if (length != index) {
+                      productName = snapshot.data.documents[index].data['name'];
+                      summary = snapshot.data.documents[index].data['summary'];
+                      itemDes =
+                          snapshot.data.documents[index].data['description'];
+                      itemPrice = snapshot.data.documents[index].data['price'];
+                      url = snapshot.data.documents[index].data['imageUrl'];
+                      fav = snapshot.data.documents[index].data['isFav'];
+                      id = snapshot.data.documents[index].documentID;
+                    }
+
+                    return length == index
+                        ? GestureDetector(
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Container(
+                                decoration: ShapeDecoration(
+                                    shape: roundedShape(10), color: white),
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '+',
+                                        style: textStyle(
+                                            color: indigo,
+                                            size: 130,
+                                            fontWeight: FontWeight.w100),
+                                      ),
+                                      Text(
+                                        'Add Product',
+                                        style: textStyle(size: 18),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () => navigateToProductForm(context),
+                          )
+                        : InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Container(
+                                decoration: ShapeDecoration(
+                                    shape: roundedShape(8), color: white),
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        Container(
+                                          height: 160,
+                                          width: 220,
+                                          color: white,
+                                          child: url.isEmpty
+                                              ? CircularProgressIndicator()
+                                              : Image(
+                                                  image: NetworkImage(url),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                        ),
+                                        GestureDetector(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.favorite,
+                                              color: fav ? Colors.red : grey,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          onTap: () => updateFavourite(id, fav),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          productName,
                                           style: textStyle(
-                                              size: 23,
-                                              fontWeight: FontWeight.w900))),
-                                  child: Center(
-                                      child: Text(summary,
-                                          style: textStyle(size: 20))),
-                                  footer: Center(
-                                      child: Text('₹ ' + itemPrice,
-                                          style: textStyle(
-                                              size: 22,
-                                              fontWeight: FontWeight.w500))),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          '₹ ' + itemPrice,
+                                          style: textStyle(size: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                             onTap: () => showProductDetails(
-                              context,
                               name: productName,
                               summary: summary,
                               description: itemDes,
@@ -151,19 +229,7 @@ class HomePage extends StatelessWidget {
                               id: id,
                             ),
                           );
-                        }),
-                    Padding(
-                      padding: EdgeInsets.all(18.0),
-                      child: CustomButton(
-                        buttonColor: indigo,
-                        buttonText: 'Add Products',
-                        buttonTextStyle: textStyle(color: white, size: 25),
-                        horizontalPadding: 100,
-                        onPressed: () => navigateToProductForm(context),
-                      ),
-                    ),
-                  ],
-                );
+                  });
         },
       ),
     );

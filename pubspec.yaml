@@ -32,6 +32,8 @@ dependencies:
   provider: ^4.3.1
   firebase_core_web:
   cloud_firestore_web:
+  image_picker: ^0.6.7+4
+  firebase_storage: ^3.1.6
 
 dev_dependencies:
   flutter_test:
