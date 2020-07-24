@@ -1,4 +1,4 @@
-# flutter_web
+# flutter_demo
 
 A new Flutter project.
 
