@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "36558402850",
+    "firebase_url": "https://weboflutter.firebaseio.com",
+    "project_id": "weboflutter",
+    "storage_bucket": "weboflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36558402850:android:e6558f9a7fd2563122617b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36558402850-33vn4etoe7k3krl3rv5tvir5ohi0rio8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADi_p_5zhPRGP1GuJh8ZnqKsw8BWuR0lY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36558402850-33vn4etoe7k3krl3rv5tvir5ohi0rio8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
