@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web/demo_app/constants.dart';
+import 'package:flutter_web/constants.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
