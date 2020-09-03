@@ -1,8 +1,10 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_web/constants.dart';
-import 'package:flutter_web/screens/home.dart';
+import 'package:flutter_web/custom_paint/signature_app.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -12,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Store',
       theme: ThemeData(
-        primaryColor: indigo,
+        primaryColor: Colors.indigo,
       ),
-      home: HomePage(),
+      home: SignaturePage(),
     );
   }
 }
