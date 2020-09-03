@@ -16,27 +16,6 @@
 
   <title>flutter_web</title>
   <link rel="manifest" href="manifest.json">
-
-  <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
-
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyDLusrxZEr5ZiXKSAubizN5dQe-_NZVrLw",
-      authDomain: "weboflutter.firebaseapp.com",
-      databaseURL: "https://weboflutter.firebaseio.com",
-      projectId: "weboflutter",
-      storageBucket: "weboflutter.appspot.com",
-      messagingSenderId: "36558402850",
-      appId: "1:36558402850:web:26fccbbb86cb59a522617b",
-      measurementId: "G-YDXK5SLZ5Y"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-  </script>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
@@ -48,7 +27,13 @@
         navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
-  </script> 
+  </script>
+  <script src="/__/firebase/7.16.1/firebase-app.js"></script>  
+  <script src="/__/firebase/7.16.1/firebase-analytics.js"></script>
+  <script src="/__/firebase/7.16.1/firebase-firestore.js"></script>
+  
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
   
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
